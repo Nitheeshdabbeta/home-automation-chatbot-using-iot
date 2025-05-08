@@ -1,0 +1,37 @@
+#define RELAY_PIN 7  // Pin connected to relay IN
+#define RELAY_PIN2 8  // Pin connected to relay IN
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);   // Set relay pin as output
+  digitalWrite(RELAY_PIN, LOW); // Ensure relay is OFF initially
+  pinMode(RELAY_PIN2, OUTPUT);   // Set relay pin as output
+  digitalWrite(RELAY_PIN2, LOW); // Ensure relay is OFF initially
+
+  Serial.begin(9600);          // Initialize Serial communication
+}
+
+void loop() {
+  // Check if data is available on Serial
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n'); // Read the incoming command
+
+    // Process the command
+    command.trim(); // Remove any extra whitespace
+    if (command == "1") {
+      digitalWrite(RELAY_PIN, HIGH); // Turn ON the relay
+      Serial.println("Relay turned ON");
+    } else if (command == "0") {
+      digitalWrite(RELAY_PIN, LOW); // Turn OFF the relay
+      Serial.println("Relay turned OFF");
+    } else if (command == "3") {
+      digitalWrite(RELAY_PIN2, LOW); // Turn OFF the relay
+      Serial.println("Relay turned OFF");
+    } else if (command == "2") {
+      digitalWrite(RELAY_PIN2, HIGH); // Turn ON the relay
+      Serial.println("Relay turned ON");
+    }
+    else {
+      Serial.println("Invalid command");
+    }
+  }
+}
